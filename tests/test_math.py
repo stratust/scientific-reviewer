@@ -1,5 +1,7 @@
 """Tests for the math verification module."""
 
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -9,7 +11,7 @@ import pytest
 SRC = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(SRC))
 
-from scientific_reviewer.math import (
+from scientific_reviewer.math import (  # noqa: E402
     extract_math,
     extract_stats,
     verify_confidence_interval,

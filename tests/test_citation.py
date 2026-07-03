@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import httpx
 import pytest
@@ -237,24 +237,6 @@ class TestVerifyPmids:
     """Batch PMID verification."""
 
     def test_multiple_pmids(self) -> None:
-        esummary2 = {
-            "header": {"type": "esummary", "version": "0.3"},
-            "result": {
-                "uids": ["12345678"],
-                "12345678": {
-                    "uid": "12345678",
-                    "pubdate": "2020 Jan",
-                    "source": "J Biol Chem",
-                    "title": "Another important study",
-                    "authors": [{"name": "Doe J", "authtype": "author"}],
-                    "articleids": [
-                        {"idtype": "doi", "idvalu": "10.1234/jbc.2020.001", "value": "10.1234/jbc.2020.001"},
-                        {"idtype": "pubmed", "idvalu": "12345678", "value": "12345678"},
-                    ],
-                    "sortpubdate": "2020/01/01 00:00",
-                },
-            },
-        }
         # We can't easily return different responses per URL with a single mock,
         # so test with one PMID at a time through verify_pmids.
         # Instead, let's test that verify_pmids calls verify_pmid for each.

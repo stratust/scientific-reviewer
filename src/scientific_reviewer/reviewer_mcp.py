@@ -8,12 +8,11 @@ Usage:
     scientific-reviewer mcp              # Start MCP server (stdio mode)
     scientific-reviewer mcp --port 8910  # Start in HTTP+SSE mode
 """
-import json
 import sys
 from typing import Any
 
 from . import orchestrator
-from .cache import cache_clear, cache_status
+from .cache import clear as cache_clear, status as cache_status
 from .citation import verify_pmid, verify_pmids
 from .gene import verify_genes
 from .math import verify_math
@@ -150,7 +149,7 @@ def run_server(host: str = "127.0.0.1", port: int = 8910):
 
     if port:
         print(f"Starting Scientific Reviewer MCP server on http://{host}:{port}", file=sys.stderr)
-        print(f"Connect your MCP client to this endpoint.", file=sys.stderr)
+        print("Connect your MCP client to this endpoint.", file=sys.stderr)
         server.run(host=host, port=port)
     else:
         # stdio mode — default for MCP

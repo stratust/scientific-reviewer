@@ -10,7 +10,7 @@ from typing import Any
 
 from . import cache
 from .citation import verify_pmids
-from .gene import verify_genes, extract_gene_symbols
+from .gene import verify_genes
 
 # Patterns for claim classification
 PMID_PATTERN = re.compile(r'(?<!\d)(\d{6,8})(?!\d)')

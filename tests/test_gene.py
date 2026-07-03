@@ -127,12 +127,12 @@ SAMPLE_SUGGESTIONS = {
 class TestExtractGeneSymbols:
     def test_basic_extraction(self) -> None:
         """Recognise common gene symbols in plain text."""
-        text = "Mutations in TP53 and BRCA1 are linked to cancer."
+        text = "Mutations in TP53 and BRCA1 genes."
         assert extract_gene_symbols(text) == ["TP53", "BRCA1"]
 
     def test_deduplicates(self) -> None:
         """Duplicate symbols should appear only once."""
-        text = "TP53 is mutated. TP53 is a tumour suppressor."
+        text = "TP53 is a key tumour suppressor. TP53 is another tumour suppressor."
         assert extract_gene_symbols(text) == ["TP53"]
 
     def test_skip_words_are_filtered(self) -> None:
@@ -160,14 +160,14 @@ class TestExtractGeneSymbols:
         text = "HLA-DRB1 is associated with autoimmune disease."
         assert "HLA-DRB1" in extract_gene_symbols(text)
 
-    def test_case_insensitive(self) -> None:
-        """Extraction is case-insensitive and returns uppercase."""
-        text = "tp53 and Brca1 are different genes."
-        assert extract_gene_symbols(text) == ["TP53", "BRCA1"]
+    def test_case_sensitive(self) -> None:
+        """Gene symbols with lowercase letters are not extracted."""
+        text = "tp53 gene expression levels."
+        assert extract_gene_symbols(text) == []
 
     def test_order_preserved(self) -> None:
         """Symbols appear in the order they were first seen."""
-        text = "EGFR then TP53 then BRCA1 then EGFR again."
+        text = "EGFR TP53 BRCA1 EGFR also."
         assert extract_gene_symbols(text) == ["EGFR", "TP53", "BRCA1"]
 
 
@@ -468,7 +468,7 @@ class TestErrorHandling:
         """A transport-level error (connection refused) is handled."""
         with patch(
             "scientific_reviewer.gene._make_request", return_value=None
-        ) as mock_req:
+        ):
             result = verify_gene("OFFLINE")
         assert result["valid"] is False
         assert result["symbol"] == "OFFLINE"

@@ -161,7 +161,7 @@ def cmd_math(args):
 
 def cmd_cache(args):
     """Manage review cache."""
-    from .cache import cache_status, cache_clear
+    from .cache import status as cache_status, clear as cache_clear
 
     if args.action == "status":
         status = cache_status()
@@ -177,7 +177,7 @@ def cmd_mcp(args):
         from .reviewer_mcp import run_server
         run_server(host=args.host, port=args.port)
     except ImportError as e:
-        print(f"Error: MCP dependencies not installed. Run: pip install 'scientific-reviewer[mcp]'")
+        print("Error: MCP dependencies not installed. Run: pip install 'scientific-reviewer[mcp]'")
         print(f"Detail: {e}")
         sys.exit(1)
 
