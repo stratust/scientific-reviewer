@@ -67,13 +67,17 @@ _SYMPY_AVAILABLE = False
 _SYMPY_PARSE = None
 
 try:
-    import sympy  # noqa: F401
+    import sympy  # # noqa: F401
     from sympy.parsing.latex import parse_latex as _sympy_parse_latex
 
-    _SYMPY_AVAILABLE = True
     _SYMPY_PARSE = _sympy_parse_latex
-except ImportError:
-    pass
+    # Verify antlr4 backend is actually available
+    _SYMPY_PARSE("x")
+    _SYMPY_AVAILABLE = True
+except Exception:
+    # sympy installed but antlr4-python3-runtime missing — degrade gracefully
+    _SYMPY_AVAILABLE = False
+    _SYMPY_PARSE = None
 
 
 # ---------------------------------------------------------------------------
